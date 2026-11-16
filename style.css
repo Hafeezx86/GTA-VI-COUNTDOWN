@@ -1,0 +1,19 @@
+/* Center the heading, sub-heading and the countdown paragraph */
+h1, h2, p {
+  text-align: center;
+}
+
+table {
+  margin: 24px auto;          /* centers the table horizontally */
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 6px 14px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+td.countdown {
+  font-family: monospace;
+}
