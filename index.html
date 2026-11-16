@@ -4,12 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GTA VI COUNTDOWN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rubik:wght@400;700&family=Share+Tech+Mono&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>GTA VI COUNTDOWN</h1>
+  <h1>
+    <img id="logo" class="logo" src="images/gta6-logo.png" alt="GTA VI">
+    COUNTDOWN
+  </h1>
   <p>GTA VI LAUNCHES IN
     <time id="main-countdown">00:00:00:00</time></p>
+
+  <section class="cover-art">
+    <h2>Official Cover Art</h2>
+    <img src="images/coverart.jpg" alt="Grand Theft Auto VI official cover art">
+  </section>
+
+  <section class="trailers">
+    <h2>Official Trailers</h2>
+    <div class="trailer-grid">
+      <a class="trailer" href="https://www.youtube.com/watch?v=QdBZY2fkU-0" target="_blank" rel="noopener">
+        <span class="thumb"><img src="https://i.ytimg.com/vi/QdBZY2fkU-0/hqdefault.jpg" alt="" loading="lazy"></span>
+        <h3>Grand Theft Auto VI Trailer 1</h3>
+        <span class="date">December 2023</span>
+      </a>
+      <a class="trailer" href="https://www.youtube.com/watch?v=VQRLujxTm3c" target="_blank" rel="noopener">
+        <span class="thumb"><img src="https://i.ytimg.com/vi/VQRLujxTm3c/hqdefault.jpg" alt="" loading="lazy"></span>
+        <h3>Grand Theft Auto VI Trailer 2</h3>
+        <span class="date">May 2025</span>
+      </a>
+      <a class="trailer" href="https://www.youtube.com/watch?v=tJbzMqJGH4k" target="_blank" rel="noopener">
+        <span class="thumb"><img src="https://i.ytimg.com/vi/tJbzMqJGH4k/hqdefault.jpg" alt="" loading="lazy"></span>
+        <h3>Grand Theft Auto VI: An Extended Look</h3>
+        <span class="date">August 2026</span>
+      </a>
+      <a class="trailer" href="https://www.youtube.com/watch?v=rz1B4B2yBZY" target="_blank" rel="noopener">
+        <span class="thumb"><img src="https://i.ytimg.com/vi/rz1B4B2yBZY/hqdefault.jpg" alt="" loading="lazy"></span>
+        <h3>Grand Theft Auto VI Launch Trailer</h3>
+        <span class="date">October 2026</span>
+      </a>
+    </div>
+  </section>
 
   <h2>Launch time in every time zone</h2>
   <table>
@@ -24,6 +61,30 @@
     <tbody id="tz-table"></tbody>
   </table>
 
+  <section class="stores">
+    <h2>Get the Game</h2>
+    <div class="store-grid">
+      <a class="store store--playstation" href="https://store.playstation.com/en-us/concept/10000730" target="_blank" rel="noopener">
+        <span class="store-name"><img class="store-logo store-logo--playstation" src="images/playstation-logo.png" alt="PlayStation Store"></span>
+        <span class="store-status">PS5 · Pre-order now</span>
+      </a>
+      <a class="store store--xbox" href="https://www.xbox.com/en-US/games/store/grand-theft-auto-vi/9p3h4968grsm" target="_blank" rel="noopener">
+        <span class="store-name"><img class="store-logo" src="images/xbox-logo.png" alt="Xbox Store"></span>
+        <span class="store-status">Xbox Series X|S · Pre-order now</span>
+      </a>
+      <div class="store store--unavailable" aria-disabled="true">
+        <span class="store-name">Steam</span>
+        <span class="store-status">Not available yet · No PC version announced</span>
+      </div>
+      <div class="store store--unavailable" aria-disabled="true">
+        <span class="store-name">Epic Games Store</span>
+        <span class="store-status">Not available yet · No PC version announced</span>
+      </div>
+    </div>
+  </section>
+
+  <script src="reveal.js"></script>
+  <script src="fireworks.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

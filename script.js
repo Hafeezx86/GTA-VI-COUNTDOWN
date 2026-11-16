@@ -1,3 +1,17 @@
+// If the logo image is missing, show the words "GTA VI" in its place
+const logo = document.getElementById('logo');
+function useTextLogo() {
+  const span = document.createElement('span');
+  span.className = 'logo-fallback';
+  span.textContent = 'GTA VI';
+  logo.replaceWith(span);
+}
+if (logo.complete && logo.naturalWidth === 0) {
+  useTextLogo();                 // already failed before this script ran
+} else {
+  logo.addEventListener('error', useTextLogo);
+}
+
 // Launch date: 19 November 2026 (month is 0-based, so 10 = November)
 const LAUNCH = { year: 2026, month: 10, day: 19, hour: 0, minute: 0 };
 
@@ -82,10 +96,26 @@ const rows = ZONES.map(([label, zone]) => {
   return { instant, cell: tr.querySelector('.countdown') };
 });
 
+// Fireworks: play for 5 minutes once the countdown reaches zero, never before.
+// If the page is opened partway through those 5 minutes, play for the time left.
+const FIREWORKS_MS = 5 * 60 * 1000;
+let fireworksStarted = false;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function maybeStartFireworks(now) {
+  if (fireworksStarted || reduceMotion) return;
+  const sinceLaunch = now - localLaunch;
+  if (sinceLaunch >= 0 && sinceLaunch < FIREWORKS_MS) {
+    fireworksStarted = true;
+    startFireworks(FIREWORKS_MS - sinceLaunch);
+  }
+}
+
 // Update every second
 const mainEl = document.getElementById('main-countdown');
 function tick() {
   const now = Date.now();
+  maybeStartFireworks(now);
   mainEl.textContent = formatRemaining(localLaunch - now);
   rows.forEach(r => { r.cell.textContent = formatRemaining(r.instant - now); });
 }

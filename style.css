@@ -1,19 +1,471 @@
+/* =========================================================
+   Vice-City-style sunset theme
+   Night purple sky, hot pink / orange / gold sunset, ocean teal
+   ========================================================= */
+:root {
+  --night:  #12051f;   /* deep night sky */
+  --dusk:   #2a0b45;   /* purple horizon */
+  --pink:   #ff2e88;   /* neon hot pink */
+  --orange: #ff7a3d;   /* sunset orange */
+  --gold:   #ffd23f;   /* sun yellow */
+  --teal:   #2de2e6;   /* ocean neon */
+  --text:   #f7eaff;
+  --muted:  #c8a9e0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 48px 16px 80px;
+  color: var(--text);
+  font-family: 'Rubik', system-ui, sans-serif;
+  background: var(--night);   /* shows only while the cover art loads */
+  overflow-x: hidden;
+}
+
+/* Ambient background: the PS5 cover art, blurred, dimmed and tinted
+   so it glows softly behind the page without fighting the text */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -60px;               /* oversized so the blur has no hard edges */
+  background:
+    /* dark vignette around the edges */
+    radial-gradient(ellipse at center, transparent 35%, rgba(18, 5, 31, 0.85) 100%),
+    /* sunset glow rising from the bottom */
+    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(255, 122, 61, 0.35), transparent 70%),
+    radial-gradient(ellipse 60% 35% at 50% 100%, rgba(255, 46, 136, 0.4), transparent 75%),
+    /* purple night tint over the whole image */
+    linear-gradient(180deg, rgba(18, 5, 31, 0.55) 0%, rgba(42, 11, 69, 0.45) 55%, rgba(91, 20, 88, 0.55) 100%),
+    url("images/PS5CoverArt.jpg") center / cover no-repeat;
+  filter: blur(6px) saturate(1.35) brightness(0.6);
+  animation: ambient-drift 40s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* Very slow zoom-and-pan so the background feels alive */
+@keyframes ambient-drift {
+  from { transform: scale(1.05) translate(0, 0); }
+  to   { transform: scale(1.15) translate(-1.5%, -2%); }
+}
+
+/* Retro neon grid "floor" across the bottom of the screen */
+body::after {
+  content: '';
+  position: fixed;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  height: 40vh;
+  background-image:
+    linear-gradient(rgba(45, 226, 230, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 226, 230, 0.35) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: perspective(300px) rotateX(60deg);
+  transform-origin: bottom;
+  mask-image: linear-gradient(to top, black, transparent);
+  -webkit-mask-image: linear-gradient(to top, black, transparent);
+  animation: grid-move 4s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes grid-move {
+  from { background-position: 0 0; }
+  to   { background-position: 0 60px; }
+}
+
 /* Center the heading, sub-heading and the countdown paragraph */
 h1, h2, p {
   text-align: center;
 }
 
-table {
-  margin: 24px auto;          /* centers the table horizontally */
-  border-collapse: collapse;
+/* ---------- Main title: sunset gradient text ---------- */
+h1 {
+  margin: 0 0 8px;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 12vw, 7.5rem);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  background: linear-gradient(90deg, var(--gold), var(--orange), var(--pink), var(--orange), var(--gold));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(255, 46, 136, 0.55));
+  animation: shimmer 6s linear infinite;
 }
 
-th, td {
-  padding: 6px 14px;
-  border-bottom: 1px solid #ccc;
+/* Official logo image sits on its own line above "COUNTDOWN" */
+h1 .logo {
+  display: block;
+  margin: 0 auto 12px;
+  height: clamp(120px, 30vw, 260px);
+  width: auto;
+  max-width: 100%;
+}
+
+/* Shown only if the logo image can't be loaded */
+h1 .logo-fallback {
+  display: block;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+/* ---------- "GTA VI LAUNCHES IN" + big neon countdown ---------- */
+p {
+  margin: 0 0 48px;
+  font-size: clamp(1rem, 3vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--teal);
+  text-shadow: 0 0 10px rgba(45, 226, 230, 0.7);
+}
+
+p time {
+  display: block;
+  margin-top: 16px;
+  font-family: 'Share Tech Mono', ui-monospace, monospace;
+  font-size: clamp(2.6rem, 11vw, 6rem);
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow:
+    0 0 6px #fff,
+    0 0 16px var(--pink),
+    0 0 36px var(--pink),
+    0 0 64px var(--orange);
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.82; }
+}
+
+/* ---------- Section heading ---------- */
+h2 {
+  margin: 0 0 8px;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  letter-spacing: 0.06em;
+  color: var(--pink);
+  text-shadow: 0 0 12px rgba(255, 46, 136, 0.7);
+}
+
+/* ---------- Official cover art ---------- */
+.cover-art {
+  max-width: 960px;
+  margin: 0 auto 64px;
+}
+
+.cover-art h2 {
+  margin-bottom: 20px;
+}
+
+.cover-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 46, 136, 0.6);
+  box-shadow:
+    0 0 24px rgba(255, 46, 136, 0.45),
+    0 0 70px rgba(255, 122, 61, 0.25);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cover-art img:hover {
+  transform: scale(1.02);
+  box-shadow:
+    0 0 32px rgba(255, 46, 136, 0.7),
+    0 0 90px rgba(45, 226, 230, 0.35);
+}
+
+/* ---------- Official trailers: grid of clickable cards ---------- */
+.trailers {
+  max-width: 960px;
+  margin: 0 auto 64px;
+}
+
+.trailers h2 {
+  margin-bottom: 20px;
+}
+
+.trailer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.trailer {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(18, 5, 31, 0.65);
+  border: 1px solid rgba(255, 46, 136, 0.45);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.trailer:hover,
+.trailer:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--teal);
+  box-shadow: 0 0 24px rgba(45, 226, 230, 0.4), 0 0 48px rgba(255, 46, 136, 0.25);
+  outline: none;
+}
+
+/* 16:9 thumbnail box; cropping hides YouTube's black bars */
+.trailer .thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.trailer .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+
+.trailer:hover .thumb img {
+  transform: scale(1.06);
+}
+
+/* Neon pink play button drawn with CSS */
+.trailer .thumb::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 56px;
+  height: 56px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 7l8 5-8 5z' fill='white'/%3E%3C/svg%3E") center / 60% no-repeat,
+    rgba(255, 46, 136, 0.85);
+  box-shadow: 0 0 20px rgba(255, 46, 136, 0.8);
+  transition: transform 0.25s;
+}
+
+.trailer:hover .thumb::after {
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.trailer h3 {
+  margin: 14px 16px 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
   text-align: left;
 }
 
+.trailer .date {
+  display: block;
+  margin: 0 16px 16px;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+/* ---------- Time-zone table: glassy neon card ---------- */
+table {
+  margin: 24px auto;          /* centers the table horizontally */
+  border-collapse: collapse;
+  max-width: 100%;
+  background: rgba(18, 5, 31, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 46, 136, 0.45);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255, 46, 136, 0.25), 0 0 60px rgba(45, 226, 230, 0.12);
+}
+
+th, td {
+  padding: 10px 18px;
+  border-bottom: 1px solid rgba(200, 169, 224, 0.15);
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--night);
+  background: linear-gradient(90deg, var(--gold), var(--orange), var(--pink));
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+tbody tr {
+  transition: background 0.2s;
+}
+
+tbody tr:hover {
+  background: rgba(255, 46, 136, 0.18);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+td:first-child {
+  font-weight: 700;
+}
+
+td:nth-child(2),
+td:nth-child(3) {
+  color: var(--muted);
+}
+
 td.countdown {
-  font-family: monospace;
+  font-family: 'Share Tech Mono', ui-monospace, monospace;
+  font-size: 1.05rem;
+  color: var(--teal);
+  text-shadow: 0 0 8px rgba(45, 226, 230, 0.6);
+}
+
+/* ---------- Store links at the bottom ---------- */
+.stores {
+  max-width: 960px;
+  margin: 64px auto 0;
+}
+
+.stores h2 {
+  margin-bottom: 20px;
+}
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.store {
+  --accent: var(--pink);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  color: var(--text);
+  text-decoration: none;
+  background: rgba(18, 5, 31, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--accent);
+  border-left-width: 5px;
+  border-radius: 12px;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.store--playstation { --accent: #2e7bff; }
+.store--xbox        { --accent: #3fbf3f; }
+
+a.store:hover,
+a.store:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 0 24px var(--accent);
+  outline: none;
+}
+
+.store-name {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+}
+
+/* Store logos replace the text names */
+.store-logo {
+  display: inline-block;
+  vertical-align: middle;
+  height: 34px;
+  width: auto;
+  max-width: 80%;
+}
+
+/* The PlayStation logo file is black: turn it white for the dark card */
+.store-logo--playstation {
+  filter: brightness(0) invert(1);
+}
+
+/* Small arrow on working links */
+a.store .store-name::after {
+  content: ' \2197';
+  color: var(--accent);
+}
+
+.store-status {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Steam / Epic: shown, but greyed out and not clickable */
+.store--unavailable {
+  --accent: rgba(200, 169, 224, 0.35);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Phones: let the wide table scroll sideways inside itself ---------- */
+@media (max-width: 720px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    padding: 8px 12px;
+  }
+}
+
+/* ---------- Launch fireworks: full-screen, see-through, click-through ---------- */
+.fireworks-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;       /* the page underneath stays clickable */
+  z-index: 1000;
+}
+
+/* ---------- Scroll reveal (classes are added by reveal.js) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px) scale(0.98);
+  transition:
+    opacity 0.9s ease-out,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);  /* gentle ease, no bounce */
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Respect users who turn off animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+  }
 }
